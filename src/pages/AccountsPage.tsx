@@ -37,7 +37,7 @@ const AccountsPage = () => {
   const fetchAccounts = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:8080/api/accounts/getAllEmployees", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/accounts/getAllEmployees`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAccounts(res.data);
@@ -84,7 +84,7 @@ const AccountsPage = () => {
     if (!confirmDeleteId) return;
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:8080/api/accounts/deleteUser/${confirmDeleteId}`, {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/accounts/deleteUser/${confirmDeleteId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage("ลบข้อมูลพนักงานสำเร็จ");
@@ -108,12 +108,12 @@ const AccountsPage = () => {
     setLoading(true);
     try {
       if (isEdit && editingId) {
-        await axios.put(`http://localhost:8080/api/accounts/updateUser/${editingId}`, formData, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/accounts/updateUser/${editingId}`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage("อัปเดตข้อมูลสำเร็จ");
       } else {
-        await axios.post("http://localhost:8080/api/accounts/createUser", formData, {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/accounts/createUser`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage("เพิ่มข้อมูลพนักงานสำเร็จ");

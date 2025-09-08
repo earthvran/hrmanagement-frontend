@@ -49,7 +49,7 @@ const EmployeesPage = () => {
   const fetchEmployees = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:8080/api/employees/getAllEmployees", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/employees/getAllEmployees`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEmployees(res.data);
@@ -61,7 +61,7 @@ const EmployeesPage = () => {
   const fetchDepartments = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:8080/api/departments/getAllDepartments", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/departments/getAllDepartments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setDepartments(res.data);
@@ -75,7 +75,7 @@ const EmployeesPage = () => {
     const token = localStorage.getItem("token");
     const targetDepartmentId = deptId || departmentId;
     try {
-      const res = await axios.get(`http://localhost:8080/api/positions/getByDepartmentId/${targetDepartmentId}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/positions/getByDepartmentId/${targetDepartmentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPositions(res.data);
@@ -142,7 +142,7 @@ const EmployeesPage = () => {
     if (!confirmDeleteId) return;
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:8080/api/employees/deleteEmployee/${confirmDeleteId}`, {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/employees/deleteEmployee/${confirmDeleteId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage("ลบข้อมูลพนักงานสำเร็จ");
@@ -197,7 +197,7 @@ const EmployeesPage = () => {
       }
 
       if (isEdit && editingId) {
-        await axios.put(`http://localhost:8080/api/employees/updateEmployee/${editingId}`, submitData, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/employees/updateEmployee/${editingId}`, submitData, {
           headers: { 
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'
@@ -205,7 +205,7 @@ const EmployeesPage = () => {
         });
         setMessage("อัปเดตข้อมูลสำเร็จ");
       } else {
-        await axios.post("http://localhost:8080/api/employees/createEmployee", submitData, {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/employees/createEmployee`, submitData, {
           headers: { 
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'

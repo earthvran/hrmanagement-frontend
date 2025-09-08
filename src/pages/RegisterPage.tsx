@@ -10,7 +10,7 @@ const RegisterPage: React.FC = () => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/api/auth/signup", {
+    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/signup`, {
       username,
       password,
       role: "EMPLOYEE",

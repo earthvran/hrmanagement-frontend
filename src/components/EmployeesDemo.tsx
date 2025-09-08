@@ -47,7 +47,7 @@ const EmployeesDemo = () => {
   const fetchEmployees = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:8080/api/employees/getAllEmployees", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/employees/getAllEmployees`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEmployees(res.data);
@@ -59,7 +59,7 @@ const EmployeesDemo = () => {
   const fetchDepartments = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:8080/api/departments/getAllDepartments", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/departments/getAllDepartments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setDepartments(res.data);
@@ -71,7 +71,7 @@ const EmployeesDemo = () => {
   const fetchPositions = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:8080/api/positions/getAll", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/positions/getAll`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPositions(res.data);
@@ -113,7 +113,7 @@ const EmployeesDemo = () => {
     if (!confirmDeleteId) return;
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:8080/api/employees/deleteEmployee/${confirmDeleteId}`, {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/employees/deleteEmployee/${confirmDeleteId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage("ลบข้อมูลพนักงานสำเร็จ");
@@ -137,12 +137,12 @@ const EmployeesDemo = () => {
     setLoading(true);
     try {
       if (isEdit && editingId) {
-        await axios.put(`http://localhost:8080/api/employees/updateEmployee/${editingId}`, formData, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/employees/updateEmployee/${editingId}`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage("อัปเดตข้อมูลสำเร็จ");
       } else {
-        await axios.post("http://localhost:8080/api/employees/createEmployee", formData, {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/employees/createEmployee`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage("เพิ่มข้อมูลพนักงานสำเร็จ");

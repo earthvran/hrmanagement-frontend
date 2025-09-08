@@ -37,7 +37,7 @@ const DepartmentsPage = () => {
   const fetchDepartments = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:8080/api/departments/getAllDepartments", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/departments/getAllDepartments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setDepartments(res.data);
@@ -72,7 +72,7 @@ const DepartmentsPage = () => {
     if (!confirmDeleteId) return;
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:8080/api/departments/deleteDepartment/${confirmDeleteId}`, {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/departments/deleteDepartment/${confirmDeleteId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage("ลบข้อมูลแผนกสำเร็จ");
@@ -96,12 +96,12 @@ const DepartmentsPage = () => {
     setLoading(true);
     try {
       if (isEdit && editingId) {
-        await axios.put(`http://localhost:8080/api/departments/updateDepartment/${editingId}`, formData, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/departments/updateDepartment/${editingId}`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage("อัปเดตข้อมูลสำเร็จ");
       } else {
-        await axios.post("http://localhost:8080/api/departments/createDepartment", formData, {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/departments/createDepartment`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage("เพิ่มข้อมูลแผนกสำเร็จ");

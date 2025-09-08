@@ -38,7 +38,7 @@ const PositionsPage = () => {
   const fetchPositions = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:8080/api/positions/getAll", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/positions/getAll`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPositions(res.data);
@@ -50,7 +50,7 @@ const PositionsPage = () => {
   const fetchDepartments = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:8080/api/departments/getAllDepartments", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/departments/getAllDepartments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setDepartments(res.data);
@@ -85,7 +85,7 @@ const PositionsPage = () => {
     if (!confirmDeleteId) return;
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:8080/api/positions/delete/${confirmDeleteId}`, {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/positions/delete/${confirmDeleteId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage("ลบข้อมูลตำแหน่งสำเร็จ");
@@ -109,12 +109,12 @@ const PositionsPage = () => {
     setLoading(true);
     try {
       if (isEdit && editingId) {
-        await axios.put(`http://localhost:8080/api/positions/update/${editingId}`, formData, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/positions/update/${editingId}`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage("อัปเดตข้อมูลสำเร็จ");
       } else {
-        await axios.post("http://localhost:8080/api/positions/create", formData, {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/positions/create`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage("เพิ่มข้อมูลตำแหน่งสำเร็จ");
