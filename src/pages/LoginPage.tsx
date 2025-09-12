@@ -25,6 +25,8 @@ const LoginPage: React.FC = () => {
       const token = response.data.token;
       if (token) {
         localStorage.setItem("token", token);
+        // Notify other parts of the app (e.g., Navbar) to update auth state immediately
+        window.dispatchEvent(new Event("storage"));
         navigate("/");
       } else {
         setError("Token not found in response.");
