@@ -135,6 +135,27 @@ const AccountForm = ({ formData, onChange, onSubmit, onCancel, isEdit = false }:
           </div>
         </div>
 
+        {/* Role Field */}
+        <div className="flex flex-col space-y-2">
+          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <span>สิทธิ์ผู้ใช้</span>
+            <span className="text-red-500">*</span>
+          </label>
+          <select
+            name="role"
+            value={formData.role}
+            onChange={onChange}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white"
+          >
+            <option value="ADMIN">แอดมิน</option>
+            <option value="HR">ฝ่ายบุคคล</option>
+            <option value="EMPLOYEE">พนักงานทั่วไป</option>
+          </select>
+          <div className="text-xs text-gray-500">
+            เลือกสิทธิ์การเข้าถึงระบบ
+          </div>
+        </div>
+
         {/* Confirm Password Field */}
         <div className="flex flex-col space-y-2">
           <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
@@ -187,27 +208,6 @@ const AccountForm = ({ formData, onChange, onSubmit, onCancel, isEdit = false }:
           )}
           <div className="text-xs text-gray-500">
             กรุณากรอกรหัสผ่านให้ตรงกับรหัสผ่านด้านบน
-          </div>
-        </div>
-
-        {/* Role Field */}
-        <div className="flex flex-col space-y-2">
-          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <span>สิทธิ์ผู้ใช้</span>
-            <span className="text-red-500">*</span>
-          </label>
-          <select
-            name="role"
-            value={formData.role}
-            onChange={onChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white"
-          >
-            <option value="ADMIN">แอดมิน</option>
-            <option value="HR">ฝ่ายบุคคล</option>
-            <option value="EMPLOYEE">พนักงานทั่วไป</option>
-          </select>
-          <div className="text-xs text-gray-500">
-            เลือกสิทธิ์การเข้าถึงระบบ
           </div>
         </div>
 
