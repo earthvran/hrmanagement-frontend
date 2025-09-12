@@ -199,16 +199,14 @@ const EmployeesPage = () => {
       if (isEdit && editingId) {
         await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/employees/updateEmployee/${editingId}`, submitData, {
           headers: { 
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
+            Authorization: `Bearer ${token}`
           },
         });
         setMessage("อัปเดตข้อมูลสำเร็จ");
       } else {
         await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/employees/createEmployee`, submitData, {
           headers: { 
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
+            Authorization: `Bearer ${token}`
           },
         });
         setMessage("เพิ่มข้อมูลพนักงานสำเร็จ");

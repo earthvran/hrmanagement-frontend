@@ -16,25 +16,33 @@ type Props = {
 const AccountForm = ({ formData, onChange, onSubmit, onCancel, isEdit = false }: Props) => {
   const [touched, setTouched] = useState<{ [key: string]: boolean }>({});
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleBlur = (field: string) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
+  
   const isValidPassword = (password: string) => /^.{8,}$/.test(password);
+  const passwordsMatch = formData.password === formData.confirmPassword;
+  
   const showError = (field: keyof AccountFormData) => {
     return touched[field] && !formData[field];
   };
 
+  const showPasswordMismatchError = () => {
+    return touched.confirmPassword && formData.confirmPassword && !passwordsMatch;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const requiredFields: (keyof AccountFormData)[] = ["username", "password", "role", "employeeId"];
+    const requiredFields: (keyof AccountFormData)[] = ["username", "password", "confirmPassword", "role", "employeeId"];
     const hasEmptyRequired = requiredFields.some((field) => !formData[field]);
     const passwordValid = isValidPassword(formData.password);
+    const passwordsMatchValid = passwordsMatch;
 
-    if (hasEmptyRequired || !passwordValid) {
+    if (hasEmptyRequired || !passwordValid || !passwordsMatchValid) {
       const newTouched: { [key: string]: boolean } = {};
       requiredFields.forEach((field) => (newTouched[field] = true));
-      newTouched.salary = true;
       setTouched((prev) => ({ ...prev, ...newTouched }));
       return;
     }
@@ -124,6 +132,61 @@ const AccountForm = ({ formData, onChange, onSubmit, onCancel, isEdit = false }:
           )}
           <div className="text-xs text-gray-500">
             รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร
+          </div>
+        </div>
+
+        {/* Confirm Password Field */}
+        <div className="flex flex-col space-y-2">
+          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <span>ยืนยันรหัสผ่าน</span>
+            <span className="text-red-500">*</span>
+          </label>
+          <div className="relative group">
+            <input
+              name="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              value={formData.confirmPassword}
+              onChange={onChange}
+              onBlur={() => handleBlur("confirmPassword")}
+              className={`w-full px-4 py-3 border rounded-lg pr-12 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 group-hover:border-gray-400 ${
+                showPasswordMismatchError() 
+                  ? 'border-red-300 focus:ring-red-500' 
+                  : 'border-gray-300 focus:ring-blue-500'
+              }`}
+              required
+              placeholder="กรุณากรอกรหัสผ่านอีกครั้ง"
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 pr-4 flex items-center justify-center hover:bg-gray-50 rounded-r-lg transition-all duration-200 group-hover:bg-gray-50"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              title={showConfirmPassword ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน"}
+            >
+              {showConfirmPassword ? (
+                <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors duration-200" />
+              ) : (
+                <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors duration-200" />
+              )}
+            </button>
+          </div>
+          {showError("confirmPassword") && (
+            <div className="flex items-center gap-2 text-red-600 text-sm">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              <span>{errorText}</span>
+            </div>
+          )}
+          {showPasswordMismatchError() && (
+            <div className="flex items-center gap-2 text-red-600 text-sm">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              <span>รหัสผ่านไม่ตรงกัน</span>
+            </div>
+          )}
+          <div className="text-xs text-gray-500">
+            กรุณากรอกรหัสผ่านให้ตรงกับรหัสผ่านด้านบน
           </div>
         </div>
 

@@ -16,6 +16,7 @@ const AccountsPage = () => {
   const [formData, setFormData] = useState<AccountFormData>({
     username: "",
     password: "",
+    confirmPassword: "",
     role: "EMPLOYEE",
     employeeId: 1,
   });
@@ -54,6 +55,7 @@ const AccountsPage = () => {
     setFormData({
       username: "",
       password: "",
+      confirmPassword: "",
       role: act.role || "EMPLOYEE",
       employeeId: act.employeeId,
     });
@@ -66,6 +68,7 @@ const AccountsPage = () => {
     setFormData({
       username: act.username,
       password: "",
+      confirmPassword: "",
       role: act.role || "EMPLOYEE",
       employeeId: act.employeeId,
     });
@@ -107,13 +110,21 @@ const AccountsPage = () => {
     const token = localStorage.getItem("token");
     setLoading(true);
     try {
+      // Create data object without confirmPassword for API
+      const apiData = {
+        username: formData.username,
+        password: formData.password,
+        role: formData.role,
+        employeeId: formData.employeeId,
+      };
+      
       if (isEdit && editingId) {
-        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/accounts/updateUser/${editingId}`, formData, {
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/accounts/updateUser/${editingId}`, apiData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage("อัปเดตข้อมูลสำเร็จ");
       } else {
-        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/accounts/createUser`, formData, {
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/accounts/createUser`, apiData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage("เพิ่มข้อมูลพนักงานสำเร็จ");
